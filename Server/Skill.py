@@ -1,4 +1,4 @@
-from Database import database
+from database import database
 
 class Skill(object):
 	def __init__(self,parent_game,ID,attacker,channel = 0):

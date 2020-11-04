@@ -1,5 +1,5 @@
 from socket import *
-from Task import Task
+from task import Task
 
 BUFSIZE=1024
 

@@ -1,4 +1,4 @@
-import MyMaths
+import my_maths
 import sys
 def new_effect(row,parent_game,caster,host,skill=None):
 	try:
@@ -48,7 +48,7 @@ class 伤害特效(基本特效):
 		elif self.skill.type == "化形":
 			att_ability = self.caster.get_ability("ATS",self.skill.系)
 			def_ability = self.host.get_ability("DEF",self.skill.系)
-		#damage=MyMaths.damage(att_ability,def_ability,self.power)
+		#damage=my_maths.damage(att_ability,def_ability,self.power)
 		damage = 99999999999999
 		damage = self.host.suffer_damage(damage)
 		self._parent_game.send_message("%s对%s造成了%d伤害！" % (self.caster.name,self.host.name,damage))

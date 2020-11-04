@@ -1,13 +1,13 @@
 import os
 import xml.etree.ElementTree as ET
-import MyMaths
-from Web import GameConnection
-from Task import Task
-from Effect import new_effect
-from ManagerEffect import ManagerEffect
-from Pokemon import Pokemon
-from Player import Player
-from Database import database
+import my_maths
+from web import GameConnection
+from task import Task
+from effect import new_effect
+from managerEffect import ManagerEffect
+from pokemon import Pokemon
+from player import Player
+from database import database
 
 class Game(object):
 	#==========状态和属性==========
@@ -16,7 +16,7 @@ class Game(object):
 		self.manager_effect = ManagerEffect()
 		#加载Setting，创建Player
 		setting_node = ET.parse("Setting.xml").getroot()
-		self.local_game = False if MyMaths.xml_child_text(setting_node,"LocalGame",True) == "False" else True
+		self.local_game = False if my_maths.xml_child_text(setting_node,"LocalGame",True) == "False" else True
 		if not self.local_game:
 			self._connection = GameConnection()
 			self._player_names = self._connection.player_names
@@ -99,7 +99,7 @@ class Game(object):
 					player2.excute_command(commands[player2])
 					player1.excute_command(commands[player1])
 				else:
-					if MyMaths.random_True_False():
+					if my_maths.random_True_False():
 						player1.excute_command(commands[player1])
 						player2.excute_command(commands[player2])
 					else:
@@ -150,7 +150,7 @@ class Game(object):
 			if target_field.has_effect("沙尘暴"):
 				hit_rate*=0.7
 
-			if MyMaths.random_in_range(hit_rate):
+			if my_maths.random_in_range(hit_rate):
 				return True
 			else:
 				self.send_message(attacker.name + "的攻击没有命中！")
@@ -212,7 +212,7 @@ class Game(object):
 			rate = row["Rate"]
 			if attacker.has_effect("天恩"):
 				rate*=2
-			if not MyMaths.random_in_range(rate):
+			if not my_maths.random_in_range(rate):
 				return False
 
 			if "毒" in target_pokemon.系 and row["Type"] == "中毒":

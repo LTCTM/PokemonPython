@@ -1,4 +1,5 @@
-from Database import database
+from database import database
+
 class ManagerEffect(object):
 	def __init__(self):
 		self._effects = []

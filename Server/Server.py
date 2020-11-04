@@ -1,4 +1,4 @@
-from Game import Game
+from game import Game
 
 def game_in_loop():
 	restart = True
