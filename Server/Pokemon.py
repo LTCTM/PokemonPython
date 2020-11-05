@@ -198,7 +198,7 @@ class Pokemon(object):
             if not effect.name[-3:] in ("系防御", "系攻击", "系无效")
         }
         if len(effect_names) == 0:
-            effect_str = ""
+            send_message("状态：无")
         else:
             send_message(f"状态：{' '.join(effect_names)}\n")
 

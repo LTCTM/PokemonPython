@@ -137,7 +137,7 @@ class Game(object):
 			return skill.系
 		#判命中
 		def judge_hit(target_field,target_pokemon):
-			if skill.has_flag("自己","场地","双方","天气","空间"):
+			if skill.has_flag("自身","场地","双方","天气","空间"):
 				return True
 			if skill.has_flag("必中"):
 				return False

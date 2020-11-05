@@ -39,7 +39,7 @@ def MP_std():
 def ability_no_equip(标准等级值, 等级):
 	return 标准等级值 * (0.05 + 等级 / LEVEL_MAX) * 5
 def HP_no_equip(标准等级值, 等级):
-	return round(标准等级值 * (4 + 等级 / LEVEL_MAX) / 2) * 48
+	return int(round(标准等级值 * (4 + 等级 / LEVEL_MAX) / 2) * 48)
 def MP_no_equip():
 	return MP
 
