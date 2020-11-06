@@ -60,6 +60,9 @@ class Pokemon(object):
         # 特殊特征
         self._连续保护 = 0
 
+    def __str__(self):
+        return self.name
+
     # 能力和特征
     @property
     def curHP_rate(self):
@@ -165,8 +168,10 @@ class Pokemon(object):
 
     def show_detail(self):
         send_message = self._parent_game.send_message
+        my_effect_names = tuple(effect.name for effect in self.get_effects())
         # 名字
-        send_message(f"{self.master.name}的{self.name}：")
+        系名 = " ".join(name[:-3] for name in my_effect_names if name[-3:] == "系攻击")
+        send_message(f"{self.master.name} 的 {self.name}： {系名}")
         # HP、MP条
         if self._parent_game.local_game:
             BAR_LEN = 24
@@ -193,14 +198,9 @@ class Pokemon(object):
             )
         # effect
         effect_names = {
-            effect.name
-            for effect in self.get_effects()
-            if not effect.name[-3:] in ("系防御", "系攻击", "系无效")
+            name for name in my_effect_names if not name[-3:] in ("系防御", "系攻击", "系无效")
         }
-        if len(effect_names) == 0:
-            send_message("状态：无")
-        else:
-            send_message(f"状态：{' '.join(effect_names)}\n")
+        send_message(f"状态：{' '.join(effect_names)}\n")
 
     @property
     def can_operate(self):

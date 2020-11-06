@@ -16,16 +16,19 @@ class Player(object):
         # 建立场地
         self.field = Field(parent_game, self)
 
+    def __str__(self):
+        return self.name
+
     # 状态
     def lose(self):
-        return len([pokemon for pokemon in self._pokemons if not pokemon.dead]) == 0
+        return sum(1 for pokemon in self._pokemons if not pokemon.dead) == 0
 
     # 宝可梦
     def choose_pokemon(self, allow_cancel=True):
         valid = False
         chosen_index = ""
         while not valid:
-            text = f"请{self.name}选择宝可梦：\n" + "c:取消\n" if allow_cancel else ""
+            text = f"请{self.name}选择宝可梦：\n" + ("c:取消\n" if allow_cancel else "")
             # 依次输出每个宝可梦的简略信息
             text += "\n".join(
                 f"{i} {pokemon.brief}" for i, pokemon in enumerate(self._pokemons)
@@ -54,8 +57,7 @@ class Player(object):
         self.pokemon_on_stage.go_on_stage()
         # 提示
         self._parent_game.send_message(
-            self.name + "说：就决定是你了！" + self.pokemon_on_stage.name + "！",
-            want_response=False,
+            f"{self.name}说：就决定是你了！{self.pokemon_on_stage.name}！"
         )
 
     # 指令

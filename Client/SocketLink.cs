@@ -76,18 +76,18 @@ namespace Client
             reconnectTime = int.Parse(root.Element("ReconnectTime").Value);
             if (reconnectTime < 250) reconnectTime = 250;
             //创建实例
-            socketClient = new Socket(SocketType.Stream, ProtocolType.Tcp);
+            socketClient = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             IPEndPoint point = new IPEndPoint(serverIP, port);
             //进行连接
             Console.WriteLine("等待连接服务器……");
-            while(true)
+            while (true)
             {
                 try
                 {
                     socketClient.Connect(point);
                     break;
                 }
-                catch(SocketException)
+                catch (SocketException)
                 {
                     Thread.Sleep(reconnectTime);
                 }
@@ -130,7 +130,7 @@ namespace Client
                         }
                         Console.Clear();
                     }
-                    else if(str== "#WantResponse")
+                    else if (str == "#WantResponse")
                     {
                         Send();
                     }
@@ -138,7 +138,7 @@ namespace Client
                     {
                         return false;
                     }
-                    else if(str.Length>=3 && str.Substring(0,3)=="#AP")
+                    else if (str.Length >= 3 && str.Substring(0, 3) == "#AP")
                     {
                         var APArr = str.Split('|');
                         bool isHP = APArr[1] == "HP";
@@ -146,10 +146,10 @@ namespace Client
 
                         const int BAR_LENGTH = 24;
                         int APLength = (int)Math.Round(currentAPRate * BAR_LENGTH);
-                        if (APLength < 1 && currentAPRate> 0)
+                        if (APLength < 1 && currentAPRate > 0)
                             APLength = 1;
 
-                        Console.Write(APArr[1]+": ");
+                        Console.Write(APArr[1] + ": ");
                         Console.ForegroundColor = isHP ? ConsoleColor.Green : ConsoleColor.Blue;
                         string APBar = "";
                         for (int i = 1; i <= APLength; ++i)
@@ -166,7 +166,7 @@ namespace Client
             }
             catch (SocketException ex)
             {
-                Console.WriteLine("游戏发生了错误！错误信息："+ ex.Message);
+                Console.WriteLine("游戏发生了错误！错误信息：" + ex.Message);
             }
             return true;
         }
