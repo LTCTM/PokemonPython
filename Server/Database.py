@@ -67,10 +67,10 @@ class Database(object):
                         )
                         result.append(row)
                         continue
-                    能力变化 = re.match(r"(STR|DEF|ATS|ADF|SPD)_(UP|DOWN)\((\d)\)", flag)
+                    能力变化 = re.match(r"(STR|DEF|ATS|ADF|SPD)_(UP|DOWN)\((\d+)\)", flag)
                     if 能力变化:
                         种类, 升降, 程度 = 能力变化.groups()
-                        row.update({"Type": f"{种类}_{升降}", "Power": 程度})
+                        row.update({"Type": f"{种类}_{升降}", "Power": int(程度)})
                         result.append(row)
                         continue
             self._rows[ID] = result
