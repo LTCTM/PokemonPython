@@ -57,21 +57,37 @@ class Database(object):
                             系防御.update({"Type": f"{防御系}系防御", "Power": value})
                         result.append(系防御)
             elif ID[0] == "S":
+                if ID == "S01701":
+                    aa = 3
                 # ====技能====
                 row = template_dict.copy()
                 all_flags = self.get_property(ID, "Flags").split(" ")
                 for flag in all_flags:
+                    # ==通用==
+                    # 概率
+                    rate_match = re.match(r"(.+)(\d+)%$", flag)
+                    if rate_match:
+                        flag = rate_match.group(1)  # 把flag里的概率扣掉
+                        row["Rate"] = int(rate_match.group(2))
+                    # ==攻击==
                     if flag == "攻击":
                         row.update(
                             {"Type": "伤害", "Power": self.get_property(ID, "Power")}
                         )
                         result.append(row)
                         continue
-                    能力变化 = re.match(r"(STR|DEF|ATS|ADF|SPD)_(UP|DOWN)\((\d+)\)", flag)
+                    # ==能力变化==
+                    能力变化 = re.match(
+                        r"((?:(?:STR|DEF|ATS|ADF|SPD)·?)+)(↑|↓)\((\d+)\)", flag
+                    )
                     if 能力变化:
-                        种类, 升降, 程度 = 能力变化.groups()
-                        row.update({"Type": f"{种类}_{升降}", "Power": int(程度)})
-                        result.append(row)
+                        所有种类 = 能力变化.group(1)
+                        升降 = "UP" if 能力变化.group(2) == "↑" else "DOWN"
+                        程度 = int(能力变化.group(3))
+                        for 种类 in 所有种类.split("·"):
+                            multiple_row = row.copy()
+                            multiple_row.update({"Type": f"{种类}_{升降}", "Power": 程度})
+                            result.append(multiple_row)
                         continue
             self._rows[ID] = result
 
